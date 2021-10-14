@@ -1,24 +1,53 @@
 const colors = require("colors/safe");
-let a = 10;
-let z = 100;
-let n = [];
-nextPrime:
-for (let i = a; i <= z; i++) { // Для всех i...
+const EventEmitter = require('events');
 
-  for (let j = a; j < (z/2); j++) { // проверить, делится ли число..
-    if (i % j == 0) continue nextPrime; // не подходит, берём следующее
-  }
+class Timers {
+    constructor({ hour,day,month,year }) {
+        this.hour = hour.getDate();
+        this.day = day.getDate();
+        this.month = month.getDate();
+        this.year = year.getDate();
+    }
 
-  n.push(i);
+	static showTimer(hour,day,month,year) {
+		let start = Date.now();
+		hour;
+		if (hour>start) {
+			for (let i = hour-start; i > start-1; i--) {
+			  console.log(i+" часов");
+			}
+		}
+		if (day>start) {
+			for (let i = day-start; i > start-1; i--) {
+			  console.log(i+" дней");
+			}
+		}
+		if (month>start) {
+			for (let i = month-start; i > start-1; i--) {
+			  console.log(i+" месяцев");
+			}
+		}
+		if (year>start) {
+			for (let i = year-start; i > start-1; i--) {
+			  console.log(i+" лет");
+			}
+		}
+	}
 }
 
-let i = 0;
-while (i <= n.length) { 
+const delay = (ms) => {
+  return Promise.resolve(resolve => setTimeout(resolve, ms));
+}
 
-  console.log(colors.green(n[i]));
-  console.log(colors.yellow(n[i+1]));
-  console.log(colors.red(n[i+2]));
-  i = i+3;
-} 
+const generateTimer = (hour,day,month,year) => {
+    const params = {hour,day,month,year};
+    return new Timers(params);
+	return delay(intervalValue).then(() => new Customer(params));
+}
+
+const emitter = new EventEmitter();
+
+emitter.on(Timers.showTimer(23,12,10,2022));
+
 
 
