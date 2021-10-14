@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
+	"start": "node cli.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/Anu-tochka/NodeModule#readme",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^8.2.0",
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0"
