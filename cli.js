@@ -1,13 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
-const list
+const readline = require('readline');
+let list;
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
 const isFile = fileName => {
   return fs.lstatSync(fileName).isFile();
 }
 rl.question('Please enter path to the file: ', toPath => {
 	list = fs.readdirSync(toPath).filter(isFile);
-}
 
 inquirer
     .prompt([{
@@ -24,5 +28,6 @@ inquirer
 		fs.readFile(filePath,'utf8', (err, data) => {
             console.log(data.matchAll(pattern));
         });
-	
-    });
+	});
+  });
+});

@@ -1,53 +1,36 @@
-const colors = require("colors/safe");
-const EventEmitter = require('events');
+const http = require('http');
+const url = require('url');
+//const cluster = require('cluster');
+//const os = require('os');
+const path = require('path');
+const fs = require('fs');
 
-class Timers {
-    constructor({ hour,day,month,year }) {
-        this.hour = hour.getDate();
-        this.day = day.getDate();
-        this.month = month.getDate();
-        this.year = year.getDate();
-    }
-
-	static showTimer(hour,day,month,year) {
-		let start = Date.now();
-		hour;
-		if (hour>start) {
-			for (let i = hour-start; i > start-1; i--) {
-			  console.log(i+" часов");
-			}
-		}
-		if (day>start) {
-			for (let i = day-start; i > start-1; i--) {
-			  console.log(i+" дней");
-			}
-		}
-		if (month>start) {
-			for (let i = month-start; i > start-1; i--) {
-			  console.log(i+" месяцев");
-			}
-		}
-		if (year>start) {
-			for (let i = year-start; i > start-1; i--) {
-			  console.log(i+" лет");
-			}
-		}
-	}
-}
-
-const delay = (ms) => {
-  return Promise.resolve(resolve => setTimeout(resolve, ms));
-}
-
-const generateTimer = (hour,day,month,year) => {
-    const params = {hour,day,month,year};
-    return new Timers(params);
-	return delay(intervalValue).then(() => new Customer(params));
-}
-
-const emitter = new EventEmitter();
-
-emitter.on(Timers.showTimer(23,12,10,2022));
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+const filePath = path.join(__dirname, './index.html');
+const list = fs.readdir(filePath);
+const items = inquirer
+    .prompt([{
+            name: "fileName",
+            type: "list",
+            message: "Choose file:",
+            choices: list,
+        }]).then((answer) => {
+        console.log(answer.fileName);
+		}) 
+		
+const server = http.createServer((req, res) => {
+    console.log(`Worker ${process.pid} handling request`);
+    res.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+    list.pipe(res);
+});
+const data = await fs.readFile(filePath);
+console.log(`Worker ${process.pid} is running`);
+server.listen(5555);
 
 
 
