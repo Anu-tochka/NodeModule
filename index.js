@@ -1,24 +1,36 @@
-const colors = require("colors/safe");
-let a = 10;
-let z = 100;
-let n = [];
-nextPrime:
-for (let i = a; i <= z; i++) { // Для всех i...
+const http = require('http');
+const url = require('url');
+//const cluster = require('cluster');
+//const os = require('os');
+const path = require('path');
+const fs = require('fs');
 
-  for (let j = a; j < (z/2); j++) { // проверить, делится ли число..
-    if (i % j == 0) continue nextPrime; // не подходит, берём следующее
-  }
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+const filePath = path.join(__dirname, './index.html');
+const list = fs.readdir(filePath);
+const items = inquirer
+    .prompt([{
+            name: "fileName",
+            type: "list",
+            message: "Choose file:",
+            choices: list,
+        }]).then((answer) => {
+        console.log(answer.fileName);
+		}) 
+		
+const server = http.createServer((req, res) => {
+    console.log(`Worker ${process.pid} handling request`);
+    res.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+    list.pipe(res);
+});
+const data = await fs.readFile(filePath);
+console.log(`Worker ${process.pid} is running`);
+server.listen(5555);
 
-  n.push(i);
-}
-
-let i = 0;
-while (i <= n.length) { 
-
-  console.log(colors.green(n[i]));
-  console.log(colors.yellow(n[i+1]));
-  console.log(colors.red(n[i+2]));
-  i = i+3;
-} 
 
 
